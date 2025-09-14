@@ -1,0 +1,4 @@
+Flask
+requests
+gunicorn
+ curl.exe -X POST -F "file=@bing.jpg" http://localhost:5000/upload

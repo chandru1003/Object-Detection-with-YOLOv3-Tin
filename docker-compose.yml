@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  ai_service:
+    build:
+      context: ./ai_service
+      dockerfile: Dockerfile
+    image: object-detection-ai:latest
+    container_name: ai_service
+    ports:
+      - "6000:6000"
+    volumes:
+      - ./ai_service/models:/app/models
+    restart: always
+
+  ui_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: object-detection-ui:latest
+    container_name: ui_service
+    ports:
+      - "8501:8501"
+    environment:
+      - AI_SERVICE_URL=http://ai_service:6000/detect
+    depends_on:
+      - ai_service
+    restart: always
